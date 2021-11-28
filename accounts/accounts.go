@@ -45,3 +45,12 @@ func (a *Account) Withdraw(amount int) error {
 	a.balance -= amount
 	return nil
 }
+
+func (a *Account) ChangeOwner(newOwner string) {
+	a.owner = newOwner
+}
+
+// NOTE: String() method 는 golang 이 내부적으로 가지고 있는 기본 method 이다.
+func (a Account) String() string {
+	return "whatever you want!"
+}
