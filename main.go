@@ -7,5 +7,6 @@ import (
 
 func main() {
 	account := accounts.Create("haril")
-	fmt.Println(account)
+	account.Deposit(10)
+	fmt.Println(account.Balance())
 }
