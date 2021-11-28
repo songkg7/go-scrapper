@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	a := 2
-	b := &a
-	*b = 20
-	fmt.Println(a)
+	// Go 의 slice 는 immutable 하다.
+	names := []string{"java", "python", "go"}
+	newNames := append(names, "scala")
+	fmt.Println(newNames)
 }
