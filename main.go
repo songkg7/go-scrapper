@@ -1,19 +1,11 @@
 package main
 
-import "fmt"
-
-type person struct {
-	name    string
-	age     int
-	favFood []string
-}
+import (
+	"fmt"
+	"scrapper/accounts"
+)
 
 func main() {
-	haril := person{
-		name:    "haril",
-		age:     28,
-		favFood: []string{"ramen", "kimchi"},
-	}
-	fmt.Println(haril)
-	fmt.Println(haril.name)
+	account := accounts.Create("haril")
+	fmt.Println(account)
 }
