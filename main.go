@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"scrapper/accounts"
+	"scrapper/dict"
 )
 
 func main() {
-	account := accounts.Create("haril").Deposit(100)
-	err := account.Withdraw(20)
+	dictionary := dict.Dictionary{"first": "First word"}
+	definition, err := dictionary.Search("first")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(account)
+	fmt.Println(definition)
 }
