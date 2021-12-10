@@ -1,14 +1,18 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 )
 
-func main() {
-	var results = make(map[string]string)
+type requestResult struct {
+	url    string
+	status string
+}
 
+func main() {
+	channel := make(chan requestResult)
+	results := make(map[string]string)
 	urls := []string{
 		"https://www.airbnb.com/",
 		"https://www.amazon.com/",
@@ -20,25 +24,27 @@ func main() {
 		"https://academy.nomadcoders.co/",
 	}
 	for _, url := range urls {
-		result := "OK"
-		err := hitURL(url)
-		if err != nil {
-			result = "FAILED"
-		}
-		results[url] = result
+		go hitURL(url, channel)
 	}
-	for url, result := range results {
-		fmt.Println(url, result)
+
+	for i := 0; i < len(urls); i++ {
+		result := <-channel
+		results[result.url] = result.status
+	}
+
+	for url, status := range results {
+		fmt.Println(url, status)
 	}
 }
 
-var errRequestFailed = errors.New("request failed")
-
-func hitURL(url string) error {
+func hitURL(url string, channel chan<- requestResult) {
 	resp, err := http.Get(url)
+	status := "OK"
 	if err != nil || resp.StatusCode >= 400 {
-		fmt.Println(resp.StatusCode)
-		return errRequestFailed
+		status = "FAILED"
 	}
-	return nil
+	channel <- requestResult{
+		url:    url,
+		status: status,
+	}
 }
